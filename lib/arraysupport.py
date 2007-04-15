@@ -1,12 +1,10 @@
 "Ratio array support for AHP"
-from __future__ import generators
+
 from random import randrange
 import sys
-sys.path.append('/tmp/lib/python2.2/site-packages')
-sys.path.append('/tmp/lib/python2.2/site-packages/numarray')
-
-from numarray import sum, array, shape, Float,reshape, transpose, identity, NumArray, fromlist
+from numpy import sum, array, shape, Float,reshape, transpose, identity, NumArray, fromlist
 from LinearAlgebra2 import eigenvectors
+
 class RatioArr(NumArray):
 	"AHP support"	
 	def __init__(self,s=5, basearr=None):

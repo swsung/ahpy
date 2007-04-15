@@ -1,19 +1,9 @@
 "Utility provisioning module"
 
-
-import sys
-# sys.path.append('/home/petri/dev/gdss')
-sys.path.append('/net/homes/u008/saffe/dev')
-
-import sys
-# sys.path.append('/home/petri/dev')
-sys.path.append('/net/homes/u008/saffe/dev')
-
-
 from Interface import IInterface
-
 from interfaces import *
 from arraysupport import *
+
 class UtilProvider:
 	"provides utility using 1) AHP and 2) simple weighted average methods"
 	
