@@ -1,1 +1,1 @@
-This packages needs complete cleanup, maybe even rewrite.
+Docs are in the "doc" directory in both rst and sphinx-generated html format.

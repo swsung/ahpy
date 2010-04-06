@@ -4,6 +4,33 @@ from string import join
 
 from numpy import array
 
+
+def model2array(model):
+   "convert model comparison data into a numpy array for weight calculation"
+
+   alternatives = ["apple", "banana", "cherry"]
+
+   criteria = {
+      "color": 0,
+      "taste": 0,
+      "health":0,
+   }
+
+   """   
+   comparisons = {
+     ("color", "health", 3),
+     ("color", "taste",  4),
+     ("taste", "health", 5)
+   }
+   """
+
+def weight2model(weights, model):
+   "copy weights into the model data structure"
+
+
+
+
+
 class Alternatives(dict):
    def __str__(self):
       alts=[]

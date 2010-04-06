@@ -1,14 +1,9 @@
 "Utility provisioning module"
 
-from Interface import IInterface
-from interfaces import *
 from arraysupport import *
 
 class UtilProvider:
 	"provides utility using 1) AHP and 2) simple weighted average methods"
-	
-	__implements__= IUtilityProvider
-	
 	
 	def __init__(self):
 		self.strategies= []
@@ -63,15 +58,14 @@ class UtilProvider:
 		
 	def _setUtility(self,id,ut):
 		self.utilities.update( {id:ut} )
+
 		
 class RatioProviderStrategy(RatioArr):
 	"A provider plug-in strategy"
 
-	__implements__= IUtilityProviderStrategy
 	
 	def __init__(self):
 		pass
-		
 
 	def sayHello(self):
 		print "Hello World!"

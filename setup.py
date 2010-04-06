@@ -26,7 +26,7 @@ if sys.version_info < (2, 3):
 doclines = __doc__.split("\n")
 
 setup(name="ahpy",
-      version="0.1",
+      version="0.2",
       maintainer="Petri Savolainen",
       maintainer_email="petri.savolainen@iki.fi",
       platforms = ["win32", "unix"],

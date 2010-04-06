@@ -161,3 +161,4 @@ class RatioArr(ndarray):
 if __name__=="__main__":
 	a = RatioArr([1,2,3,2,1,3, 2,2,1])
 	print a
+        print a.getWeights()

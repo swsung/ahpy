@@ -2,20 +2,13 @@
 
 import sys
 import unittest
-from Interface.Verify import verifyClass as verify
-from numarray import sum, array, shape, Float,reshape, transpose, identity, NumArray, fromlist
-from LinearAlgebra2 import eigenvectors
-from interfaces import *
-from arraysupport import *
-from utilityproviders import UtilProvider as up, RatioProviderStrategy as rps
+from numpy import sum, array, shape, reshape, transpose, identity
+from ahpy.arraysupport import *
+from ahpy.utilityproviders import UtilProvider as up, RatioProviderStrategy as rps
 
 
 class RA_TestCase(unittest.TestCase):
     "basic RatioArr testing"
-
-    def testInterfaces(self):
-        self.failUnless(verify(IUtilityProvider, up))
-        self.failUnless(verify(IUtilityProviderStrategy, rps))
 
     def setUp(self):
         self.arr = RatioArr(5)
