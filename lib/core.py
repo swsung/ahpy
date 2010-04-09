@@ -1,4 +1,4 @@
-"Support for calculating AHP weights and consistency ratios (CR)"
+"This module provides support for calculating AHP weights and consistency ratios (CR)"
 
 from decimal import Decimal
 from numpy import array
