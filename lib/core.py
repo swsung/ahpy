@@ -6,9 +6,24 @@ from numpy.linalg import eig
 
 
 def calculateWeights(arr, rounding=4):
-   """Given pairwise comparisons array, calculate weights using the AHP method
+   """Given pairwise comparisons array, calculate weights using the AHP method.
+
+   Take the following example array:
+
+   +-----+-----+---+
+   |  1  | 1/3 | 5 |
+   +-----+-----+---+
+   |  3  |  1  | 7 |
+   +-----+-----+---+
+   | 1/7 | 1/7 | 1 |
+   +-----+-----+---+
+
+   Set up the array:
 
    >>> arr = array([ [1, 1./3, 5], [3,1,7], [1./5,1./7,1] ])
+
+   Calculate the weights (= normalized primary eigenvector):
+
    >>> vector = calculateWeights(arr, rounding=4)
    >>> vector
    [Decimal('0.2790'), Decimal('0.6491'), Decimal('0.0719')]
