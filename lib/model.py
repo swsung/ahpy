@@ -1,64 +1,89 @@
 "Decision-making model support"
 import sys
 from string import join
-
 from numpy import array
 
 
-def model2array(model):
-   "convert model comparison data into a numpy array for weight calculation"
+def add_criterion(criteria, parent, name):
+   "add criterion to criteria, under parent (give None as parent to add to root)"
 
-   alternatives = ["apple", "banana", "cherry"]
+   if not parent:
+      criteria[name] = (0, {})
 
-   criteria = {
-      "color": 0,
-      "taste": 0,
-      "health":0,
-   }
+   else:
+      parent = find_criterion(criteria, parent)[parent]
+      parent[1][name] = (0, {})
 
-   """   
-   comparisons = {
-     ("color", "health", 3),
-     ("color", "taste",  4),
-     ("taste", "health", 5)
-   }
-   """
-
-def weight2model(weights, model):
-   "copy weights into the model data structure"
-
-
-
-
-
-class Alternatives(dict):
-   def __str__(self):
-      alts=[]
+   print criteria
       
-      for a in self.alternative:
-         alts.append(a.name)
-      return join(alts,", ")
-   
-   def getRatios(self):
-      R=[]
-      for a in self.alternative:
+
+def del_criterion(criteria, name):
+   "remove a named criterion"
+
+   try:
+      del find_criterion(criteria, name)[name]
+      print "removed %s" % name
+   except:
+      print "no '%s' criterion in criteria" % name
+
+      
+def find_criterion(criteria, name):
+   "return the parent dict"
+
+   if name in criteria:
+      return criteria
+   else:
+      for k,v in criteria.items():
          try:
-            for r in a.ratio:
-               print r.to,r.PCDATA
+            c = find_criterion(v[1], name)
+            if c:
+               return c
          except:
-            pass
+            pass # no subitems
             
-class Criteria:
-   def __str__(self):
-      cri=[]
-      for a in self.criterion:
-         cri.append(a.name)
-      return join(cri,", ")
+   return None
       
-class Model:
-   def __str__(self):
-      alts="Alternatives: %s\n" % self.alternatives
-      cri= "Criteria: %s\n" % self.criteria
-      return alts+cri
 
+
+if __name__=="__main__":
+
+   c = {"a":(0, {"a1":(0,{}),"a2":(0,{})}),"b":(2,{})}
+
+   print "find b: ", find_criterion(c, "b")
+   print "find a1: ", find_criterion(c, "a1")
+   print "find z:", find_criterion(c, "z")
+
+   print "remove a1"
+   p = find_criterion(c, "a1")
+   del p["a1"]
+   print c
+
+   del_criterion(c, "a2")
+   print c
+
+   del_criterion(c, "b")
+   print c
+
+
+   c = {}
+
+   add_criterion(c, None, "a")
+   add_criterion(c, None, "b")
+   add_criterion(c, "a", "a1")
+   add_criterion(c, "a", "a2")
+
+   print "find b: ", find_criterion(c, "b")
+   print "find a1: ", find_criterion(c, "a1")
+   print "find z:", find_criterion(c, "z")
+
+   print "remove a1"
+   p = find_criterion(c, "a1")
+   del p["a1"]
+   print c
+
+   del_criterion(c, "a2")
+   print c
+
+   del_criterion(c, "b")
+   print c
 
