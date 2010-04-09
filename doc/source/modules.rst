@@ -8,4 +8,8 @@ Package modules
 .. automodule:: ahpy.core
    :members:
 
+:mod:`ahpy.model`
+------------------
 
+.. automodule:: ahpy.model
+   :members:
