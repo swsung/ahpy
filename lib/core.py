@@ -24,8 +24,7 @@ def calculateWeights(arr, rounding=4):
 
    Calculate the weights (= normalized primary eigenvector):
 
-   >>> vector = calculateWeights(arr, rounding=4)
-   >>> vector
+   >>> calculateWeights(arr, rounding=4)
    [Decimal('0.2790'), Decimal('0.6491'), Decimal('0.0719')]
 
    """
