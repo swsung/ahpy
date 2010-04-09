@@ -13,6 +13,7 @@ Contents:
 
    introduction.rst
    usage.rst
+   modules.rst
 
 Indices and tables
 ==================

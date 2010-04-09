@@ -9,19 +9,8 @@ The module provides support for the following AHP-related tasks:
  - calculating the priorities
  - reviewing the consistency ratio (CR)   
 
-The library maintains a clean separation between the model, the pairwise comparisons and the calculation of weights.
+The scope of the library is intentionally kept small. 
 
-The hierarchy is modeled simply as a tree of tuples where each tuple has:
+It implements the necessary AHP algorithms and provides rudimentary support for managing the criteria, set of alternatives, the pairwise comparisons and the weights.
 
- - the criteria and associated weights
- - the pairwise comparison data
-
-The criteria and weights are stored as a recursive dictionary::
-
-   {
-      id1: ( [ (subid11, weight), (subid21, weight) ], weight ),
-      id2: ( [ (subid21, weight), (subid22, weight) ], weight ),
-   }
-
-The comparisons are stored as a list of (id, id, priority) tuples.
-
+These are all loosely coupled to maintain a clean separation between the model, the pairwise comparisons and the calculation of weights.
