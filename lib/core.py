@@ -51,7 +51,11 @@ def calculateWeights(arr, rounding=4):
 
 
 def calculateConsistency(arr):
-   "given pairwise comparisons array, calculate consistency ratio (CR) for the comparisons"
+   """Given pairwise comparisons array, calculate consistency ratio (CR) for the comparisons.
+
+   Not implemented yet.
+
+   """
 
 
 

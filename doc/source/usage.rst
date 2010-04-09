@@ -8,23 +8,14 @@ The main AHP functionality resides in ahpy.core. There are two functions providi
 AHP is used on a problem roughly as follows:
 
 Set up the criteria
-------------------------------------
+-------------------
 
-Set up the criteria (possibly including subcriteria). The criteria hierarchy is modeled simply as a tree of tuples where each tuple has:
+Set up the criteria (possibly including subcriteria).
 
- - the criteria and associated weights
- - the pairwise comparison data
-
-The criteria and weights are stored as a recursive dictionary::
-
-   {
-      'id1': ( weight, {'subid11': weight, 'subid21': weight} ),
-      'id2': ( weight, {'subid21': weight, 'subid22': weight} ),
-      'id3': ( weight, {} )
-   }
+(see :mod:`ahpy.model`)
 
 
-Select the alternatives to be considered
+Choose the alternatives to be considered
 ----------------------------------------
 
 Compare criteria pairwise
