@@ -116,9 +116,8 @@ def record_ratings(criteria, ratings, reciprocate=True):
 	>>> print c
 	{'a': [0, {'a1': [7, {}], 'a2': [Fraction(1, 7), {}]}], 'b': [0, {}]}
    
-   The function checks for invalid weights and attempts to explicitly store
-   a value on a non-leaf criterion.
-
+   The function raises AHPError on invalid weights and attempts to explicitly
+   store a value on a non-leaf criterion.
    """
    
    for a1, a2, w in ratings:
