@@ -1,16 +1,19 @@
 Introduction
 ============
 
-The module provides support for the following AHP-related tasks:
+The package provides support for the following AHP (Analytic Hierarchy Process) tasks:
 
- - building and reviewing the criteria hierarchy
- - setting up the list of alternatives
- - doing pairwise comparisons
- - calculating the priorities
- - reviewing the consistency ratio (CR)   
+ - building the criteria hierarchy
+ - inputting pairwise comparisons
+ - calculating the weights for criteria and alternatives
+ - calculating the consistency ratio (CR)   
 
-The scope of the library is intentionally kept small. 
+The scope of the library is intentionally kept small. It implements only the minimum necessary to
+order a set of alternatives according to a criteria and pairwise comparisons, using the AHP
+technique and algorithms.
 
-It implements the necessary AHP algorithms and provides rudimentary support for managing the criteria, set of alternatives, the pairwise comparisons and the weights.
+For more information about AHP, see for example Wikipedia:
 
-These are all loosely coupled to maintain a clean separation between the model, the pairwise comparisons and the calculation of weights.
+http://en.wikipedia.org/wiki/Analytic_Hierarchy_Process
+
+Some good google searches are "ahp tutorial", "analytic hierarchy process" and "ahp saaty".

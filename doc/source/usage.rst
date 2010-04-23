@@ -3,7 +3,8 @@
 Usage
 =====
 
-The main AHP functionality resides in ahpy.core. There are two functions providing support for weight and consistency ratio calculation.
+The main AHP functionality resides in ahpy.core,
+providing support for weight and consistency ratio calculation.
 
 AHP is used on a problem roughly as follows:
 
@@ -29,7 +30,7 @@ Assign criteria weights
 
 The weights are calculated based on the pairwise comparisons of the criteria.
 
-(see :func:`calculateWeights` in :mod:`ahpy.core`)
+See :func:`ahpy.core.calculateWeights` in :mod:`ahpy.core`.
 
 
 Compare alternatives pairwise
@@ -43,7 +44,7 @@ The comparisons are stored as a list of (id, id, priority) tuples.
 Assign weights on alternatives
 ------------------------------
 
-See :func:`ahpy.core.calculateWeights`
+See :func:`ahpy.core.calculateWeights` in :mod:`ahpy.core`.
 
 
 Review the result
@@ -51,5 +52,5 @@ Review the result
 
 The result is calculated according to the pairwise comparisons of the alternatives.
 
-See :func:`ahpy.core.calculateConsistency`.
+See :func:`ahpy.core.calculateConsistency` in :mod:`ahpy.core`.
 
