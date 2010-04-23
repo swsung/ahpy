@@ -1,23 +1,26 @@
 """Provides a simple criteria tree implementation using built-in datatypes.
 
-The criteria and weights are stored as a recursive dictionary::
+The criteria and weights are stored as a simple recursive dictionary::
 
    {
-      'id1': [ 0, {'subid11': 0, 'subid21': 0} ],
-      'id2': [ 0, {'subid21': 0, 'subid22': 0} ],
-      'id3': [ 0, {}]
+      'id1': {'subid11': {}, 'subid21': {}},
+      'id2': {'subid21': {}, 'subid22': {}},
+      'id3': {}
    }
 
 Thus a criteria element has subitems, whereas a criterion does not (empty dictionary).
 
-As in the example above, the weights default to 0 until assigned a value.
-
 """
 
-import sys
+import sys, logging
 from string import join
 from fractions import Fraction
-from numpy import array
+from numpy import zeros
+
+from ahpy.core import calculateWeights
+
+
+logging.basicConfig()
 
 
 class AHPError(Exception):
@@ -31,18 +34,18 @@ def add_criterion(criteria, parent, name):
    
    >>> c = {}
    >>> add_criterion(c, None, "a")
-   {'a': (0, {})}
+   {'a': {}}
    >>> add_criterion(c, "a", "a1")
-   {'a': (0, {'a1': (0, {})})}
+   {'a': {'a1': {}}}
 
    """
 
    if not parent:
-      criteria[name] = (0, {})
+      criteria[name] = {}
 
    else:
       parent = find_criterion(criteria, parent)[parent]
-      parent[1][name] = (0, {})
+      parent[name] = {}
 
    print criteria
       
@@ -52,22 +55,18 @@ def del_criterion(criteria, name):
 
    Examples:
 
-   >>> c = {"a":[0, {"a1":[0,{}],"a2":[0,{}]}],"b":[0,{}]}
+   >>> c = {"a":{"a1":{},"a2":{}},"b":{}}
    >>> del_criterion(c, "a2")
-   removed a2
    >>> del_criterion(c, "b")
-   removed b
-   >>> del_criterion(c, "z")
-   no 'z' criterion in criteria
    >>> print c
-   {'a': [0, {'a1': [0, {}]}]}
+   {'a': {'a1': {}}}
    """
 
    try:
       del find_criterion(criteria, name)[name]
-      print "removed %s" % name
+      logging.info("removed %s from criteria" % name)
    except:
-      print "no '%s' criterion in criteria" % name
+      raise AHPError("no '%s' criterion in criteria" % name)
 
       
 def find_criterion(criteria, name):
@@ -75,13 +74,13 @@ def find_criterion(criteria, name):
 
    Examples:
 
-   >>> c = { "a": [0,{"a1":[0,{}]}], "b":[0,{}] }
+   >>> c = { "a": {"a1":{}}, "b":{} }
    >>> find_criterion(c, "a")
-   {'a': [0, {'a1': [0, {}]}], 'b': [0, {}]}
+   {'a': {'a1': {}}, 'b': {}}
    >>> find_criterion(c, "a1")
-   {'a1': [0, {}]}
+   {'a1': {}}
    >>> find_criterion(c, "b")
-   {'a': [0, {'a1': [0, {}]}], 'b': [0, {}]}
+   {'a': {'a1': {}}, 'b': {}}
 
    """
 
@@ -90,7 +89,7 @@ def find_criterion(criteria, name):
    else:
       for k,v in criteria.items():
          try:
-            c = find_criterion(v[1], name)
+            c = find_criterion(v, name)
             if c:
                return c
          except:
@@ -99,51 +98,61 @@ def find_criterion(criteria, name):
    return None
 
 
-def record_ratings(criteria, ratings, reciprocate=True):
-   """Ratings are stored in a list of (alternative1, alternative2, weight) tuples.
+def comparisons2array(comparisons):
+	"""Parse ratings, return list of alternatives and a pairwise comparisons array.
+	
+	Comparisons are expected as a list of (alternative1, alternative2, value) tuples.
+	
+	They compare the first alternative to the second using a scale from 1 to 9, where
+	value 1 means the alternatives are equally preferable, and 9 means the first
+	alternative is absolutely more preferred to the second.
    
-   The weight compares the first alternative to the second. Thus weight 1 means
-   the first is absolutely more preferred than the second, and weight of 9 means
-   the opposite.
-   
-   By default, the reciprocal values are applied automatically.
-   
-   Example:
-   
-   >>> c = {"a":[0, {"a1":[0,{}],"a2":[0,{}]}],"b":[0,{}]}
-   >>> r = [("a1","a2",7)]
-	>>> record_ratings(c, r)
-	>>> print c
-	{'a': [0, {'a1': [7, {}], 'a2': [Fraction(1, 7), {}]}], 'b': [0, {}]}
-   
-   The function raises AHPError on invalid weights and attempts to explicitly
-   store a value on a non-leaf criterion.
-   """
-   
-   for a1, a2, w in ratings:
-   
-   	if w not in (2,3,4,5,6,7,8,9):
-   		raise AHPError("Invalid weight given: %s" % w)
-   		
-   	criterion = find_criterion(criteria, a1)[a1]
-   	if criterion[1]:
-   		raise AHPError("Cannot set non-leaf criterion weight.")
-   	else:
-   		criterion[0] = w
-			
-		if reciprocate:
-			criterion = find_criterion(criteria, a2)[a2]
-			if criterion[1]:
-  				raise AHPError("Cannot set non-leaf criterion weight.")
-			else:
-				criterion[0] = Fraction("1/%i" % w)
-			
-			
-def weigh_criteria(c):
-	"""Weigh the complete criteria. Raise an AHPError if not all leaf criteria is not provided."""
-			
+	The set of ratings is expeted to be complete - all alternatives must be
+	rated against one another.
+	
+	Example:
 
+	We by and large prefer apples to oranges as well as to bananas. Thus:
+	
+	>>> comparisons = [("apple", "orange", 5), ("apple", "banana", 4), ("orange", "banana",1)]
+	>>> results = comparisons2array(comparisons)
+	>>> results[0]
+	['apple', 'orange', 'banana']
+	>>> results[1]
+   	array([[ 1.  ,  5.  ,  4.  ],
+   	       [ 0.2 ,  1.  ,  1.  ],
+   	       [ 0.25,  1.  ,  1.  ]])
+	"""
+
+	# First, determine the set of alternatives
+	alternatives = []
+	for a1, a2, r in comparisons:
+		if a1 not in alternatives:
+			alternatives.append(a1)
+		if a2 not in alternatives:
+			alternatives.append(a2)
+	
+	# Create a identity matrix to start from
+	size = len(alternatives)	
+	arr = zeros((size,size))
+	for i in range(size):
+		arr[i,i] = 1
+
+
+	# Fill in the comparison data, including reciprocal values	
+	for a1, a2, r in comparisons:
+		y = alternatives.index(a1)
+		x = alternatives.index(a2)
+		arr[y,x] = r
+		if not arr[x,y]:
+			arr[x,y] = Fraction("1/%i" % r)
+			
+	return (alternatives, arr)
+	
+	
+	
 if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
 
-    import doctest
-    doctest.testmod()
+
