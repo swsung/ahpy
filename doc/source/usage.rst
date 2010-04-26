@@ -23,6 +23,8 @@ Compare criteria pairwise
 -------------------------
 
 The comparisons are stored as a list of (id, id, priority) tuples.
+To generate an array suitable for calculating weights,
+pass the list to :func:`ahpy.util.comparisons2array` in module :mod:`ahpy.util`.
 
 
 Assign criteria weights

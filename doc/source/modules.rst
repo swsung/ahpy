@@ -13,3 +13,8 @@ Package modules
 
 .. automodule:: ahpy.model
    :members:
+
+::mod:`ahpy.util`
+-----------------
+.. automodule:: ahpy.util
+   :members:
