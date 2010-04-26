@@ -20,9 +20,6 @@ from numpy import zeros
 from ahpy.core import calculateWeights
 
 
-logging.basicConfig()
-
-
 class AHPError(Exception):
    "An error triggered by AHP-related problem"
    
@@ -98,3 +95,6 @@ def find_criterion(criteria, name):
    return None
 
 
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
