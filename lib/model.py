@@ -14,8 +14,6 @@ Thus a criteria element has subitems, whereas a criterion does not (empty dictio
 
 import sys
 from string import join
-from fractions import Fraction
-from numpy import zeros
 
 from ahpy.core import calculateWeights
 

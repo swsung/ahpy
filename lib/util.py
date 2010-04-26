@@ -2,6 +2,10 @@
 Module for various utilities related to using AHP.
 """
 
+from fractions import Fraction
+from numpy import zeros
+
+
 def comparisons2array(comparisons):
 	"""Parse ratings, return list of alternatives and a pairwise comparisons array.
 	
