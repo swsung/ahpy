@@ -27,6 +27,7 @@ def calculateWeights(arr, rounding=4):
 
    Set up the array:
 
+   >>> from numpy import array
    >>> arr = array([ [1, 1./3, 5], [3,1,7], [1./5,1./7,1] ])
 
    Calculate the weights (= normalized primary eigenvector):
@@ -59,7 +60,8 @@ def calculateConsistency(arr):
    """Given pairwise comparisons array, calculate consistency ratio (CR) for the comparisons.
    
    Example:
-   
+
+   >>> from numpy import array   
    >>> arr = array([ [1, 1./3, 1./9, 1./5], [3,1,1,1], [9,1,1,3], [5,1,1./3,1] ])
    >>> print calculateConsistency(arr)
    0.0557579272574
