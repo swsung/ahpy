@@ -32,7 +32,7 @@ Assign criteria weights
 
 The weights are calculated based on the pairwise comparisons of the criteria.
 
-See :func:`ahpy.core.calculateWeights` in :mod:`ahpy.core`.
+See :func:`ahpy.core.calculate_weights` in :mod:`ahpy.core`.
 
 
 Compare alternatives pairwise
@@ -46,7 +46,7 @@ The comparisons are stored as a list of (id, id, priority) tuples.
 Assign weights on alternatives
 ------------------------------
 
-See :func:`ahpy.core.calculateWeights` in :mod:`ahpy.core`.
+See :func:`ahpy.core.calculate_weights` in :mod:`ahpy.core`.
 
 
 Review the result
@@ -54,5 +54,5 @@ Review the result
 
 The result is calculated according to the pairwise comparisons of the alternatives.
 
-See :func:`ahpy.core.calculateConsistency` in :mod:`ahpy.core`.
+See :func:`ahpy.core.calculate_consistency` in :mod:`ahpy.core`.
 

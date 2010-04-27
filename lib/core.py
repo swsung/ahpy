@@ -1,4 +1,5 @@
-"This module provides support for calculating AHP weights and consistency ratios (CR)"
+"""This module provides support for calculating AHP weights and
+consistency ratios (CR)"""
 
 from decimal import Decimal as D
 from numpy.linalg import eig
@@ -12,7 +13,7 @@ RI = (0, 0, D('0.58'), D('0.9'), D('1.12'),
 )
 
 
-def calculateWeights(arr, rounding=4):
+def calculate_weights(arr, rounding=4):
    """Given pairwise comparisons array, calculate weights using the AHP method.
 
    Take the following example array:
@@ -32,7 +33,7 @@ def calculateWeights(arr, rounding=4):
 
    Calculate the weights (= normalized primary eigenvector):
 
-   >>> calculateWeights(arr, rounding=4)
+   >>> calculate_weights(arr, rounding=4)
    [Decimal('0.2790'), Decimal('0.6491'), Decimal('0.0719')]
    """
 
@@ -56,14 +57,15 @@ def calculateWeights(arr, rounding=4):
    return [ D( str(v) ).quantize(PLACES) for v in vector ]
 
 
-def calculateConsistency(arr):
-   """Given pairwise comparisons array, calculate consistency ratio (CR) for the comparisons.
+def calculate_consistency(arr):
+   """Given pairwise comparisons array, calculate consistency ratio (CR)
+   for the comparisons.
    
    Example:
 
    >>> from numpy import array   
    >>> arr = array([ [1, 1./3, 1./9, 1./5], [3,1,1,1], [9,1,1,3], [5,1,1./3,1] ])
-   >>> print calculateConsistency(arr)
+   >>> print calculate_consistency(arr)
    0.0557579272574
    
    """
@@ -80,5 +82,5 @@ def calculateConsistency(arr):
 	
 
 if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
+   import doctest
+   doctest.testmod()
