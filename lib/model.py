@@ -12,12 +12,6 @@ Thus a criteria element has subitems, whereas a criterion does not (empty dictio
 
 """
 
-import sys
-from string import join
-
-from ahpy.core import calculateWeights
-
-
 class AHPError(Exception):
    "An error triggered by AHP-related problem"
    
@@ -59,7 +53,6 @@ def del_criterion(criteria, name):
 
    try:
       del find_criterion(criteria, name)[name]
-      logging.info("removed %s from criteria" % name)
    except:
       raise AHPError("no '%s' criterion in criteria" % name)
 

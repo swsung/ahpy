@@ -1,8 +1,6 @@
 "This module provides support for calculating AHP weights and consistency ratios (CR)"
 
 from decimal import Decimal as D
-from fractions import Fraction as F
-from numpy import array, diagonal
 from numpy.linalg import eig
 
 
