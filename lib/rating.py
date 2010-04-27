@@ -1,31 +1,29 @@
 """
-Module for various utilities related to using AHP.
+Module that provides various utilities to support AHP pairwise comparisons,
+or ratings, of criteria and alternatives.
+
+Comparisons are stored in lists of (alternative1, alternative2, value) tuples.
+   
+Each tuple is thus a comparison between the first alternative to the second,
+using a scale from 1 to 9. Value 1 means the alternatives are equally
+preferable,and 9 means the first alternative is absolutely more preferred
+to the second one.
+
 """
 
 from fractions import Fraction
 from numpy import zeros
 
 
-def comparisons2array(comparisons):
+def generate_array(comparisons):
    """Parse ratings, return list of alternatives & pairwise comparisons array.
-   
-   Expects a list of (alternative1, alternative2, value) tuples.
-   
-   Each tuple reflects a comparison between the first alternative to the second,
-   using a scale from 1 to 9. Value 1 means the alternatives are equally
-   preferable,and 9 means the first alternative is absolutely more preferred to
-   the second one.
-   
+      
    The set of ratings is expeted to be complete - all alternatives must be
-   rated against one another.
-   
-   Example:
-
-   We by and large prefer apples to oranges as well as to bananas. Thus:
+   rated against one another. Example:
    
    >>> comparisons = [("apple", "orange", 5),
    ... ("apple", "banana", 4), ("orange", "banana",1)]
-   >>> results = comparisons2array(comparisons)
+   >>> results = generate_array(comparisons)
    >>> results[0]
    ['apple', 'orange', 'banana']
    >>> results[1]

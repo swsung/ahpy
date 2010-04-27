@@ -85,6 +85,30 @@ def find_criterion(criteria, name):
    return None
 
 
+def traverse(criteria, label="criteria"):
+   """Return a generator to traverse the criteria and assign weights.
+   
+   An example:
+   
+   >>> cri = {
+   ... "a1":{"a21":{},"a22":{}},
+   ... "b1":{"b21":{"b31":{}, "b32":{}}, "b22":{}}
+   ... }
+   >>> for sub in traverse(cri):
+   ...   print sub
+   ('a1', {'a21': {}, 'a22': {}})
+   ('b21', {'b31': {}, 'b32': {}})
+   ('b1', {'b22': {}, 'b21': {'b31': {}, 'b32': {}}})
+   ('criteria', {'a1': {'a21': {}, 'a22': {}}, 'b1': {'b22': {}, 'b21': {'b31': {}, 'b32': {}}}})
+   """
+   
+   for key, value in criteria.items():   
+      if value:      
+         for subitem in traverse(value, key):
+            yield subitem
+   yield (label, criteria)
+
+
 if __name__ == "__main__":
    import doctest
    doctest.testmod()
