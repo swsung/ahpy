@@ -1,4 +1,5 @@
-"""Provides support for manipulating a simple criteria tree implementation using built-in datatypes.
+"""Provides support for manipulating a simple criteria tree implementation,
+using built-in datatypes.
 
 The criteria and weights are stored as a simple recursive dictionary::
 
@@ -8,16 +9,16 @@ The criteria and weights are stored as a simple recursive dictionary::
       'id3': {}
    }
 
-Thus a criteria element has subitems, whereas a criterion does not (empty dictionary).
+Thus a criteria element has subitems, whereas a criterion is an empty dict.
 
 """
 
-class AHPError(Exception):
+class AHPModelError(Exception):
    "An error triggered by AHP-related problem"
    
    
 def add_criterion(criteria, parent, name):
-   """Add criterion to criteria, under parent (give None as parent to add to root).
+   """Add criterion to a parent criterion; give None to add to root.
    
    Examples:
    
@@ -51,10 +52,11 @@ def del_criterion(criteria, name):
    {'a': {'a1': {}}}
    """
 
-   try:
-      del find_criterion(criteria, name)[name]
-   except:
-      raise AHPError("no '%s' criterion in criteria" % name)
+   parent = find_criterion(criteria, name)
+   if parent:
+      del parent[name]
+   else:
+      raise AHPModelError("no such criterion: %s" % name)
 
       
 def find_criterion(criteria, name):
@@ -75,13 +77,10 @@ def find_criterion(criteria, name):
    if name in criteria:
       return criteria
    else:
-      for k,v in criteria.items():
-         try:
-            c = find_criterion(v, name)
-            if c:
-               return c
-         except:
-            pass # no subitems
+      for key, val in criteria.items():
+         cri = find_criterion(val, name)
+         if cri:
+            return cri
             
    return None
 
