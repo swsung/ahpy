@@ -85,7 +85,7 @@ def find_criterion(criteria, name):
    return None
 
 
-def traverse(criteria, label="criteria"):
+def traverse(criteria, label="criteria", level=1):
    """Return a generator to traverse the criteria and assign weights.
    
    An example:
@@ -103,10 +103,11 @@ def traverse(criteria, label="criteria"):
    """
    
    for key, value in criteria.items():   
-      if value:      
-         for subitem in traverse(value, key):
+      if value:
+         for subitem in traverse(value, key, level+1):
             yield subitem
-   yield (label, criteria)
+   level -= 1
+   yield (label, criteria, level)
 
 
 if __name__ == "__main__":
