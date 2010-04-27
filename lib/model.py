@@ -88,26 +88,32 @@ def find_criterion(criteria, name):
 def traverse(criteria, label="criteria", level=1):
    """Return a generator to traverse the criteria and assign weights.
    
-   An example:
+   An example model:
    
    >>> cri = {
    ... "a1":{"a21":{},"a22":{}},
-   ... "b1":{"b21":{"b31":{}, "b32":{}}, "b22":{}}
+   ... "b1":{"b21":{"b31":{}, "b32":{}}, "b22":{}},
+   ... "c1":{"c21":{"c31":{}, "c32":{}}, "c22":{}},
    ... }
+  
+   Traverse the criteria, showing label & depth:
+   (sub[1] just shows a copy of the criteria)
+   
    >>> for sub in traverse(cri):
-   ...   print sub
-   ('a1', {'a21': {}, 'a22': {}})
-   ('b21', {'b31': {}, 'b32': {}})
-   ('b1', {'b22': {}, 'b21': {'b31': {}, 'b32': {}}})
-   ('criteria', {'a1': {'a21': {}, 'a22': {}}, 'b1': {'b22': {}, 'b21': {'b31': {}, 'b32': {}}}})
+   ...   print sub[0], sub[2]
+   a1 1
+   c21 2
+   c1 1
+   b21 2
+   b1 1
+   criteria 0
    """
    
    for key, value in criteria.items():   
       if value:
          for subitem in traverse(value, key, level+1):
             yield subitem
-   level -= 1
-   yield (label, criteria, level)
+   yield (label, criteria, level-1)
 
 
 if __name__ == "__main__":
