@@ -14,8 +14,8 @@ Package modules
 .. automodule:: ahpy.model
    :members:
 
-:mod:`ahpy.util`
+:mod:`ahpy.rating`
 -----------------
 
-.. automodule:: ahpy.util
+.. automodule:: ahpy.rating
    :members:
