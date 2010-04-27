@@ -1,7 +1,7 @@
 """Provides support for manipulating a simple criteria tree implementation,
 using built-in datatypes.
 
-The criteria and weights are stored as a simple recursive dictionary::
+The criteria is stored as a simple recursive dictionary::
 
    {
       'id1': {'subid11': {}, 'subid21': {}},
@@ -45,11 +45,11 @@ def del_criterion(criteria, name):
 
    Examples:
 
-   >>> c = {"a":{"a1":{},"a2":{}},"b":{}}
+   >>> c = {"a1":{},"a2":{},"b":{}, "c":{}}
    >>> del_criterion(c, "a2")
    >>> del_criterion(c, "b")
    >>> print c
-   {'a': {'a1': {}}}
+   {'a1': {}, 'c': {}}
    """
 
    parent = find_criterion(criteria, name)
@@ -64,7 +64,7 @@ def find_criterion(criteria, name):
 
    Examples:
 
-   >>> c = { "a": {"a1":{}}, "b":{} }
+   >>> c = {"a":{"a1":{}}, "b":{} }
    >>> find_criterion(c, "a")
    {'a': {'a1': {}}, 'b': {}}
    >>> find_criterion(c, "a1")
